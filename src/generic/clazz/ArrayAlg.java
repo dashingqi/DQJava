@@ -2,13 +2,13 @@ package generic.clazz;
 
 public class ArrayAlg {
 
-    public static Pair<String> minMax(String[] array) {
+    public static <T extends Comparable> Pair<T> minMax(T[] array) {
         if (array == null || array.length == 0) {
             return null;
         }
 
-        String min = array[0];
-        String max = array[0];
+        T min = array[0];
+        T max = array[0];
 
         for (int i = 1; i < array.length; i++) {
             if (min.compareTo(array[i]) > 0) {
@@ -20,5 +20,9 @@ public class ArrayAlg {
         }
 
         return new Pair<>(min, max);
+    }
+
+    public static <T> T getMiddle(T... a) {
+        return a[a.length / 2];
     }
 }
