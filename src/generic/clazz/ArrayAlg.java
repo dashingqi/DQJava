@@ -4,7 +4,7 @@ public class ArrayAlg {
 
     public static <T extends Comparable> Pair<T> minMax(T[] array) {
         if (array == null || array.length == 0) {
-            return null;
+            return new Pair();
         }
 
         T min = array[0];
