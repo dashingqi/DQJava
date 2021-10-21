@@ -24,6 +24,7 @@ public class BufferedStreamDemo {
         BufferedOutputStream bos = null;
         try {
             bos = new BufferedOutputStream(new FileOutputStream(targetFile));
+            // 这个地方只能写字节
             bos.write(byteArray[0]);
             bos.write(byteArray, 1, byteArray.length - 1);
             bos.flush();
