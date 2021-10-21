@@ -10,9 +10,9 @@ public class BufferedStreamDemo {
     };
 
     public static void main(String[] args) {
-        System.out.println("abs = " + getAbsolutePath());
-        bufferedOutPutStream(getAbsolutePath());
-        bufferedInputStream(getAbsolutePath());
+        System.out.println("abs = " + IOUtils.getAbsolutePath());
+        bufferedOutPutStream(IOUtils.getAbsolutePath());
+        bufferedInputStream(IOUtils.getAbsolutePath());
 
     }
 
@@ -52,7 +52,7 @@ public class BufferedStreamDemo {
             for (int i = 0; i < 10; i++) {
                 // 返回当输入流中字节数
                 if (bis.available() >= 0) {
-                    System.out.println(byteToString((byte) bis.read()));
+                    System.out.println(IOUtils.byteToString((byte) bis.read()));
                 }
             }
 
@@ -65,7 +65,7 @@ public class BufferedStreamDemo {
             int read = bis.read(bytes, 0, bytes.length);
             System.out.println("read is " + read);
 
-            printByteArray(bytes);
+            IOUtils.printByteArray(bytes);
 
             System.out.println("reset之后 ================");
 
@@ -73,7 +73,7 @@ public class BufferedStreamDemo {
             bis.reset();
             int read_1 = bis.read(bytes, 0, bytes.length);
             System.out.println("read_1 is " + read_1);
-            printByteArray(bytes);
+            IOUtils.printByteArray(bytes);
 
 
         } catch (Exception e) {
@@ -87,39 +87,5 @@ public class BufferedStreamDemo {
                 }
             }
         }
-    }
-
-    /**
-     * 字节转成字符串
-     *
-     * @param b
-     * @return
-     */
-    private static String byteToString(byte b) {
-        byte[] barray = {b};
-        return new String(barray);
-    }
-
-    private static void printByteArray(byte[] buf) {
-        for (byte b : buf) {
-            if (b != 0) {
-                System.out.println(byteToString(b));
-            }
-        }
-    }
-
-    /**
-     * 获取到当前的绝对路径
-     *
-     * @return String 绝对路径
-     */
-    private static String getAbsolutePath() {
-        File file = new File("");
-        try {
-            return file.getAbsolutePath();
-        } catch (Exception e) {
-            return "";
-        }
-
     }
 }
