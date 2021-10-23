@@ -29,6 +29,14 @@ public class IOUtils {
         }
     }
 
+    public static void printCharArray(char[] chaz){
+        for (char c : chaz){
+            if (c !=0){
+                System.out.print(String.valueOf(c));
+            }
+        }
+    }
+
     // 打印byte对应的16进制的字符串
     public static String byteToHexString(byte val) {
         return Integer.toHexString(val & 0xff);
