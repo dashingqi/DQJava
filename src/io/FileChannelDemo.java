@@ -9,17 +9,13 @@ import java.time.Instant;
 public class FileChannelDemo {
     public static void main(String[] args) {
 
-        File sourceFile = new File("/Users/zhangqi/downloads/Gradle3.0/8/8-5.mp4");
-        File targetFile = new File("/Users/zhangqi/downloads/8-5-source.mp4");
-        targetFile.deleteOnExit();
-        try {
-            targetFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+        File sourceFile = new File(IOUtils.getAbsolutePath()+"/src/file/8-5.mp4");
+        File targetFile = new File(IOUtils.getAbsolutePath()+"/src/video/8-5.mp4");
+        if (targetFile.exists()) {
+            targetFile.delete();
         }
-
-        // copyFileByStream(sourceFile, targetFile);
-        copyFileByChannel(sourceFile, targetFile);
+        copyFileByStream(sourceFile, targetFile);
+       // copyFileByChannel(sourceFile, targetFile);
 
 
     }
