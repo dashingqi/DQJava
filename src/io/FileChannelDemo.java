@@ -9,8 +9,8 @@ import java.time.Instant;
 public class FileChannelDemo {
     public static void main(String[] args) {
 
-        File sourceFile = new File(IOUtils.getAbsolutePath()+"/src/file/8-5.mp4");
-        File targetFile = new File(IOUtils.getAbsolutePath()+"/src/video/8-5.mp4");
+        File sourceFile = new File(IOUtils.getAbsolutePath()+"/src/file/8-1.mp4");
+        File targetFile = new File(IOUtils.getAbsolutePath()+"/src/video/8-1.mp4");
         if (targetFile.exists()) {
             targetFile.delete();
         }
