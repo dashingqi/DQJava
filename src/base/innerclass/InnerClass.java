@@ -40,7 +40,7 @@ public class InnerClass {
         }
 
         // SAM
-        // 必需是接口，同时这个接口内部只有一个方法
+        // 必须是接口，同时这个接口内部只有一个方法
         Runnable able = () -> {
 
         };
