@@ -9,11 +9,8 @@ package base.innerclass;
  * 1. 匿名内部类的构造方法是由编译器定义的。
  */
 public class InnerClass {
-    public static void main(String[] args) {
 
-        Client client = new Client();
-        client.run();
-
+    public void run(){
         // 匿名内部类，是有名字的.只不过这个名字是由Java虚拟机定义的
         // 名字就是 base.InnerClass$1
         // $1 表示是该类中的第一个匿名内部类
@@ -41,5 +38,12 @@ public class InnerClass {
 
             }
         }
+
+        // SAM
+        // 必需是接口，同时这个接口内部只有一个方法
+        Runnable able = () -> {
+
+        };
+
     }
 }
