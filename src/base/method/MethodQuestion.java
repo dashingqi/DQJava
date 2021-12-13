@@ -59,4 +59,12 @@ public class MethodQuestion {
 //        // T -> Object
 //        if (list instanceof List<String>) {}
     }
+
+    public void test(){
+//        startActivityForResult(intent,new ResultListener(){
+//           void onResult(){
+//               // do Something
+//           }
+//        });
+    }
 }
