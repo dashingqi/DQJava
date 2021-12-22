@@ -1,0 +1,5 @@
+package string
+
+class KotlinStringMain {
+
+}
