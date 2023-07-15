@@ -37,10 +37,10 @@ public class AtomicMain {
         AtomicReference<User> userAtomicReference = new AtomicReference<>();
         userAtomicReference.set(user1);
 
-        userAtomicReference.compareAndExchange(user1, user2);
-        System.out.println("current user is " + userAtomicReference.get());
-
-        userAtomicReference.compareAndExchange(user1, user3);
-        System.out.println("current user is " + userAtomicReference.get());
+//        userAtomicReference.compareAndExchange(user1, user2);
+//        System.out.println("current user is " + userAtomicReference.get());
+//
+//        userAtomicReference.compareAndExchange(user1, user3);
+//        System.out.println("current user is " + userAtomicReference.get());
     }
 }
