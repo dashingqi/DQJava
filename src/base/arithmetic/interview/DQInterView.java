@@ -25,7 +25,9 @@ public class DQInterView {
         return false;
     }
 
-
+    /**
+     * 栈
+     */
     static class DQStack {
         private final Stack<Integer> mainStack = new Stack<>();
         private final Stack<Integer> minStack = new Stack<>();
@@ -56,5 +58,37 @@ public class DQInterView {
             }
             return minStack.peek();
         }
+    }
+
+    /**
+     * 最大公约数 （辗转相除法）
+     *
+     * @param a a
+     * @param b b
+     * @return gcd
+     */
+    public static int gcdV2(int a, int b) {
+        int big = Math.max(a, b);
+        int small = Math.min(a, b);
+        if (big % small == 0) {
+            return small;
+        }
+        return gcdV2(big % small, small);
+    }
+
+    /**
+     * 最大公约数 更相减损术
+     *
+     * @param a a
+     * @param b b
+     * @return gcd
+     */
+    public static int gcdV3(int a, int b) {
+        if (a == b) {
+            return a;
+        }
+        int big = Math.max(a, b);
+        int small = Math.min(a, b);
+        return gcdV3(big - small, small);
     }
 }
