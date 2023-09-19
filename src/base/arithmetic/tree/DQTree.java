@@ -1,8 +1,5 @@
 package base.arithmetic.tree;
 
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
-import groovyjarjarantlr4.v4.runtime.misc.Nullable;
-
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -64,7 +61,6 @@ public class DQTree {
      * @param inputList 节点结合
      * @return 树
      */
-    @Nullable
     public static TreeNode createBinaryTree(LinkedList<Integer> inputList) {
         TreeNode node = null;
         if (inputList == null || inputList.isEmpty()) {
