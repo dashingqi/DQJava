@@ -50,7 +50,7 @@ public class DQInterView {
         /**
          * 返回栈中保存的最小值
          *
-         * @return
+         * @return min value
          */
         public int getMainValue() {
             if (minStack.isEmpty()) {
