@@ -75,16 +75,5 @@ public class DQListNode {
         }
         return tempNode;
     }
-
-    /**
-     * 节点
-     */
-    private static class Node {
-        int data;
-        Node next;
-
-        Node(int data) {
-            this.data = data;
-        }
-    }
 }
+
