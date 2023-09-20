@@ -91,4 +91,26 @@ public class DQInterView {
         int small = Math.min(a, b);
         return gcdV3(big - small, small);
     }
+
+    /**
+     * 判断一个数是否是2的整数次幂
+     *
+     * @param num 数
+     * @return true/false
+     */
+    public boolean isPowerOf2V1(int num) {
+        int temp = 1;
+        while (temp <= num) {
+            if (temp == num) {
+                return true;
+            }
+            temp = temp << 1;
+        }
+        return false;
+    }
+
+    public boolean isPowerOf2V2(int num) {
+        // 0和1按位与运算的结果是0
+        return (num & (num - 1)) == 0;
+    }
 }
