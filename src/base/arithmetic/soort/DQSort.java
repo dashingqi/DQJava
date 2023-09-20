@@ -38,4 +38,45 @@ public class DQSort {
             }
         }
     }
+
+    /**
+     * 快速排序
+     *
+     * @param arr        数组
+     * @param startIndex 开始
+     * @param endIndex   结束
+     */
+    public void quickSort(int[] arr, int startIndex, int endIndex) {
+        if (startIndex >= endIndex) {
+            return;
+        }
+
+        int pivotIndex = partition(arr, startIndex, endIndex);
+        quickSort(arr, startIndex, pivotIndex - 1);
+        quickSort(arr, pivotIndex + 1, endIndex);
+    }
+
+    /**
+     * 寻找基准角标
+     * 分治 单边循环法
+     * @param arr        数组
+     * @param startIndex 开始
+     * @param endIndex   结束
+     * @return 基准
+     */
+    private static int partition(int[] arr, int startIndex, int endIndex) {
+        int pivotValue = arr[startIndex];
+        int markIndex = startIndex;
+        for (int i = startIndex + 1; i <= endIndex; i++) {
+            if (arr[i] < pivotValue) {
+                markIndex++;
+                int tempValue = arr[markIndex];
+                arr[markIndex] = arr[i];
+                arr[i] = tempValue;
+            }
+        }
+        arr[startIndex] = arr[markIndex];
+        arr[markIndex] = pivotValue;
+        return markIndex;
+    }
 }
