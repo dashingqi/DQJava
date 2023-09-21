@@ -61,6 +61,46 @@ public class DQInterView {
     }
 
     /**
+     * 队列实现使用栈
+     */
+    static class QueueWithStack {
+
+        private Stack<Integer> stackA = new Stack<>();
+
+        private Stack<Integer> stackB = new Stack<>();
+
+        /**
+         * 入队列
+         *
+         * @param value 值
+         */
+        public void enQueue(int value) {
+            stackA.push(value);
+        }
+
+        /**
+         * 出队列
+         *
+         * @return 先进先出
+         */
+        public Integer deQueue() {
+            if (stackB.isEmpty()) {
+                if (stackA.isEmpty()) {
+                    return null;
+                }
+                transfer();
+            }
+            return stackB.pop();
+        }
+
+        private void transfer() {
+            if (!stackA.isEmpty()) {
+                stackB.push(stackA.pop());
+            }
+        }
+    }
+
+    /**
      * 最大公约数 （辗转相除法）
      *
      * @param a a

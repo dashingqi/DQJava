@@ -46,7 +46,7 @@ public class DQSort {
      * @param startIndex 开始
      * @param endIndex   结束
      */
-    public void quickSort(int[] arr, int startIndex, int endIndex) {
+    public static void quickSort(int[] arr, int startIndex, int endIndex) {
         if (startIndex >= endIndex) {
             return;
         }

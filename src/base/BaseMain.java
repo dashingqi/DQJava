@@ -1,5 +1,7 @@
 package base;
 
+import base.arithmetic.soort.DQSort;
+
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -43,6 +45,8 @@ public class BaseMain {
         // Java9 中对与拉丁字符做了存储空间上的优化，9之前使用 char[] 数组存储，9以及之后使用 byte[] 默认是Latin-1编码也就是使用一个字节
         // 当字符串出现中文以及其他超出Latin-1 编码范围的字符的时候，这时候就使用UTF-16进行编码，默认是占2个字节的。
         System.out.println("\uD83D\uDE0A".length());
+        int[] ints = {4, 3, 7, 2, 8, 10, 9};
+        DQSort.quickSort(ints, 0, ints.length - 1);
     }
 }
 
