@@ -153,4 +153,51 @@ public class DQInterView {
         // 0和1按位与运算的结果是0
         return (num & (num - 1)) == 0;
     }
+
+    /**
+     * 删除整数的k个数字，获得删除后的最小值
+     *
+     * @param num 整数
+     * @param k   第K个
+     * @return 获取到的最小值
+     */
+    public static String removeKDigits(String num, int k) {
+        String newNum = num;
+        boolean hasCut = false;
+        for (int i = 0; i < k; i++) {
+            for (int j = 0; j < newNum.length() - 1; j++) {
+                if (newNum.charAt(j) > newNum.charAt(j + 1)) {
+                    newNum = newNum.substring(0, j) + newNum.substring(j + 1, newNum.length());
+                    hasCut = true;
+                    break;
+                }
+            }
+            if (!hasCut) {
+                newNum = newNum.substring(0, newNum.length() - 1);
+            }
+            // 清除整数左侧数字0
+            newNum = removeZero(newNum);
+        }
+        if (newNum.length() == 0) {
+            return "0";
+        }
+        return newNum;
+    }
+
+    /**
+     * 移除zero
+     *
+     * @param num 整数
+     * @return 移除后的整数
+     */
+    private static String removeZero(String num) {
+        for (int i = 0; i < num.length(); i++) {
+            if (num.charAt(i) != '0') {
+                break;
+            }
+            num = num.substring(1, num.length());
+        }
+
+        return num;
+    }
 }
