@@ -200,4 +200,51 @@ public class DQInterView {
 
         return num;
     }
+
+    /**
+     * 两个大数进行相加
+     *
+     * @param bigNumberA 数A
+     * @param bigNumberB 数B
+     * @return 相加后的数字
+     */
+    public static String bigNumberSum(String bigNumberA, String bigNumberB) {
+        int maxLen = Math.max(bigNumberA.length(), bigNumberB.length());
+        int[] arrayA = new int[maxLen + 1];
+        for (int i = 0; i < bigNumberA.length(); i++) {
+            // 将bigNumber中的字符转化成数字逆序存储到arrayA中
+            arrayA[i] = bigNumberA.charAt(bigNumberA.length() - 1 - i) - '0';
+        }
+        int[] arrayB = new int[maxLen + 1];
+        for (int i = 0; i < bigNumberB.length(); i++) {
+            //  将bigNumber中的字符转化成数字逆序存储到arrayB中
+            arrayB[i] = bigNumberB.charAt(bigNumberB.length() - 1 - i) - '0';
+        }
+
+        // 构建一个结果result数组
+        int[] result = new int[maxLen + 1];
+        for (int i = 0; i < result.length; i++) {
+            int temp = result[i];
+            temp += arrayA[i];
+            temp += arrayB[i];
+            if (temp > 10) {
+                temp = temp - 10;
+                result[i + 1] = 1;
+            }
+            result[i] = temp;
+        }
+        // 从数组中将结果读取转换成字符串
+        StringBuilder sb = new StringBuilder();
+        boolean findFirst = false;
+        for (int i = result.length - 1; i >= 0; i--) {
+            if (!findFirst) {
+                if (result[i] == 0) {
+                    continue;
+                }
+                findFirst = true;
+            }
+            sb.append(result[i]);
+        }
+        return sb.toString();
+    }
 }
