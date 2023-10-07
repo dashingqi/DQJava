@@ -1,8 +1,11 @@
 package base;
 
+import base.arithmetic.interview.DQInterView2;
 import base.arithmetic.soort.DQSort;
 
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * 1. Java中的char是由两个字节组成，如何存储UTF-8
@@ -47,6 +50,10 @@ public class BaseMain {
         System.out.println("\uD83D\uDE0A".length());
         int[] ints = {4, 3, 7, 2, 8, 10, 9};
         DQSort.quickSort(ints, 0, ints.length - 1);
+
+        int[] array = new int[]{95, 94, 91, 98, 99, 90, 99, 93, 91, 92};
+        int[] sortedArray = DQSort.countSortV2(array);
+        System.out.println("v2 === " + Arrays.toString(sortedArray));
     }
 }
 
