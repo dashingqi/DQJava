@@ -149,4 +149,110 @@ public class DQInterView2 {
     public boolean isPowerOf2V1(int value) {
         return (value & (value - 1)) == 0;
     }
+
+
+    private static class Bucket {
+        Integer max;
+        Integer min;
+    }
+
+    /**
+     * 无序数组排序后的最大相邻差
+     *
+     * @param array 无序数组
+     * @return 最大相邻差值
+     */
+    public static int getMaxSortedDistance(int[] array) {
+        // 确认最大值和最小值
+        int max = array[0];
+        int min = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
+
+            if (array[i] < min) {
+                min = array[i];
+            }
+        }
+        // 如果 max 和 min 相等，说明数组所有元素都相等；
+        int d = max - min;
+        if (d == 0) {
+            return 0;
+        }
+        // 初始化桶
+        int bucketNum = array.length;
+        Bucket[] buckets = new Bucket[bucketNum];
+        for (int i = 0; i < bucketNum; i++) {
+            buckets[i] = new Bucket();
+        }
+
+        // 遍历原始数组，确定每个桶的最大最小值
+        for (int j : array) {
+            int index = ((j - min) * (bucketNum - 1) / d);
+            if (buckets[index].min == null || buckets[index].min > j) {
+                buckets[index].min = j;
+            }
+
+            if (buckets[index].max == null || buckets[index].max < j) {
+                buckets[index].max = j;
+            }
+
+        }
+
+        // 遍历桶，找打最大差值
+        int leftMax = buckets[0].max;
+        int maxDistance = 0;
+        for (int i = 1; i < buckets.length; i++) {
+            if (buckets[i].min == null) {
+                continue;
+            }
+
+            if (buckets[i].min - leftMax > maxDistance) {
+                maxDistance = buckets[i].min - leftMax;
+            }
+            leftMax = buckets[i].max;
+        }
+
+        return maxDistance;
+    }
+
+    static class StackQueue {
+        private Stack<Integer> stackA = new Stack<>();
+        private Stack<Integer> stackB = new Stack<>();
+
+        /**
+         * 入队
+         *
+         * @param value
+         */
+        public void enQueue(int value) {
+            stackA.push(value);
+        }
+
+        /**
+         * 出队
+         *
+         * @return 值
+         */
+        public Integer deQueue() {
+            if (stackB.isEmpty()) {
+                if (stackA.isEmpty()) {
+                    return null;
+                }
+                // 栈A中有元素，就进行转换
+                transfer();
+            }
+            return stackB.pop();
+        }
+
+        /**
+         * 将栈A中的元素转换到栈B中
+         */
+        private void transfer() {
+            while (!stackA.isEmpty()) {
+                stackB.push(stackA.pop());
+            }
+        }
+    }
 }
