@@ -217,6 +217,9 @@ public class DQInterView2 {
         return maxDistance;
     }
 
+    /**
+     * 使用栈实现队列
+     */
     static class StackQueue {
         private Stack<Integer> stackA = new Stack<>();
         private Stack<Integer> stackB = new Stack<>();
@@ -254,5 +257,90 @@ public class DQInterView2 {
                 stackB.push(stackA.pop());
             }
         }
+    }
+
+    /**
+     * 删除整数的k个数字，获得删除后的最小值
+     *
+     * @param num 当前数字
+     * @param k   K个数字
+     * @return 移除后的数字
+     */
+    public static String removeKDigits(String num, int k) {
+        String numNew = num;
+        for (int i = 0; i < k; i++) {
+            boolean hasCut = false;
+            for (int j = 0; i < numNew.length() - 1; i++) {
+                if (numNew.charAt(j) > numNew.charAt(j + 1)) {
+                    hasCut = true;
+                    numNew = numNew.substring(0, j) + numNew.substring(j + 1, numNew.length());
+                    break;
+                }
+            }
+            // 如果没有找到要删除的数字，就删除最后一个数字
+            if (!hasCut) {
+                numNew = numNew.substring(0, numNew.length() - 1);
+            }
+            numNew = removeZero(numNew);
+        }
+        if (numNew.length() == 0) {
+            return "0";
+        }
+        return numNew;
+    }
+
+    /**
+     * 移除头部零
+     *
+     * @param num
+     * @return
+     */
+    public static String removeZero(String num) {
+        for (int i = 0; i < num.length(); i++) {
+            if (num.charAt(0) != '0') {
+                break;
+            }
+            num = num.substring(1, num.length());
+        }
+        return num;
+    }
+
+    /**
+     * 两个大数相加
+     * @param bigNumberA numA
+     * @param bigNumberB  numA
+     * @return result
+     */
+    public static String bigNumberSum(String bigNumberA, String bigNumberB) {
+        int maxLen = Math.max(bigNumberA.length(), bigNumberB.length());
+        int[] arrayA = new int[maxLen + 1];
+        for (int i = 0; i < bigNumberA.length(); i++) {
+            arrayA[i] = bigNumberA.charAt(bigNumberA.length() - i - 1) - '0';
+        }
+        int[] arrayB = new int[maxLen + 1];
+        for (int i = 0; i < bigNumberB.length(); i++) {
+            arrayB[i] = bigNumberB.charAt(bigNumberB.length() - i - 1) - '0';
+        }
+
+        int[] array = new int[maxLen + 1];
+        for (int i = 0; i < array.length; i++) {
+            int temp = array[i];
+            temp += arrayA[i];
+            temp += arrayB[i];
+            if (temp >= 10) {
+                temp = temp - 10;
+                array[i + 1] = 1;
+            }
+            array[i] = temp;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = array.length - 1; i >= 0; i++) {
+            if (array[array.length - 1] == 0) {
+                continue;
+            }
+            sb.append(i);
+        }
+        return sb.toString();
     }
 }
