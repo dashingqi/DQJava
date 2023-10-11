@@ -2,7 +2,10 @@ package base.arithmetic.interview;
 
 import base.arithmetic.listnode.Node;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Stack;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DQInterView2 {
 
@@ -307,8 +310,9 @@ public class DQInterView2 {
 
     /**
      * 两个大数相加
+     *
      * @param bigNumberA numA
-     * @param bigNumberB  numA
+     * @param bigNumberB numA
      * @return result
      */
     public static String bigNumberSum(String bigNumberA, String bigNumberB) {
@@ -342,5 +346,223 @@ public class DQInterView2 {
             sb.append(i);
         }
         return sb.toString();
+    }
+
+    static class Node {
+        int key, value;
+        Node pre, next;
+
+        Node(int key, int value) {
+            this.key = key;
+            this.value = value;
+            pre = this;
+            next = this;
+        }
+    }
+
+    static class LRUCache {
+        /**
+         * 容量
+         */
+        private final int capacity;
+        /**
+         *
+         */
+        private final Node dump;
+        /**
+         * 缓存
+         */
+        private final Map<Integer, Node> cache;
+
+        public LRUCache(int capacity) {
+            this.capacity = capacity;
+            dump = new Node(0, 0);
+            // 线程安全
+            cache = new ConcurrentHashMap<>();
+        }
+
+        /**
+         * 获取节点值
+         *
+         * @param key 健
+         * @return value
+         */
+        public int get(int key) {
+            Node node = cache.get(key);
+            if (node == null) return -1;
+            remove(node);
+            add(node);
+            return node.value;
+        }
+
+        /**
+         * 装Node
+         *
+         * @param key   健
+         * @param value 值
+         */
+        public void put(int key, int value) {
+            Node node = cache.get(key);
+            if (node == null) {
+                // 不存在就进行存储
+                // 先判断容量是否超出阈值
+                if (cache.size() >= capacity) {
+                    cache.remove(dump.next.key);
+                    remove(dump.next);
+                }
+            } else {
+                // 存在，先移除节点（缓存与链表中）
+                cache.remove(key);
+                remove(node);
+            }
+            // 构造一个新节点
+            node = new Node(key, value);
+            // 更新cache
+            cache.put(key, node);
+            // 更新链表
+            add(node);
+        }
+
+        /**
+         * 移除节点
+         *
+         * @param node 节点
+         */
+        private void remove(Node node) {
+            node.pre.next = node.next;
+            node.next.pre = node.pre;
+        }
+
+        /**
+         * 添加节点
+         *
+         * @param node 节点
+         */
+        private void add(Node node) {
+            dump.pre.next = node;
+            node.pre = dump.pre;
+            node.next = dump;
+            dump.pre = node;
+        }
+    }
+
+    /**
+     * 继承LinkedHashMap实现
+     *
+     * @param <K>
+     * @param <V>
+     */
+   static class DQLruCache<K, V> extends LinkedHashMap<K, V> {
+        int capacity;
+
+        public DQLruCache(int capacity) {
+            super(capacity, 0.75f, true);
+            this.capacity = capacity;
+
+        }
+
+        @Override
+        public boolean remove(Object key, Object value) {
+            return size() > capacity;
+        }
+    }
+
+    static class DQLruCacheV2 {
+
+        private final int capacity;
+        private final Node head;
+        private final Node tail;
+        private final Map<Integer, Node> cache;
+
+        public DQLruCacheV2(int capacity) {
+            this.capacity = capacity;
+            head = new Node(0, 0);
+            tail = new Node(0, 0);
+            head.next = tail;
+            tail.pre = head;
+            cache = new ConcurrentHashMap<>();
+        }
+
+        /**
+         * 获取节点
+         *
+         * @param key 健
+         * @return value
+         */
+        public int get(int key) {
+            if (cache.containsKey(key)) {
+                Node node = cache.get(key);
+                // 将节点放置到头部
+                moveToHead(node);
+                return node.value;
+            }
+            return -1;
+        }
+
+        /**
+         * 移动到头节点
+         *
+         * @param node 节点
+         */
+        private void moveToHead(Node node) {
+            removeNode(node);
+            addToHead(node);
+        }
+
+        /**
+         * 添加节点到头部
+         *
+         * @param node 节点
+         */
+        private void addToHead(Node node) {
+            node.next = head.next;
+            node.pre = head;
+            head.next.pre = node;
+            head.next = node;
+        }
+
+        /**
+         * 放置节点
+         *
+         * @param key   健
+         * @param value 值
+         */
+        public void put(int key, int value) {
+            if (cache.containsKey(key)) {
+                Node node = cache.get(key);
+                node.value = value;
+                moveToHead(node);
+            } else {
+                Node newNode = new Node(key, value);
+                cache.put(key, newNode);
+                addToHead(newNode);
+                if (cache.size() > capacity) {
+                    // 超过阈值，移除尾部
+                    Node node = removeTail();
+                    cache.remove(node.value);
+                }
+            }
+        }
+
+        /**
+         * 移除Node
+         *
+         * @param node 节点
+         */
+        public void removeNode(Node node) {
+            node.pre.next = node.next;
+            node.next.pre = node.pre;
+
+        }
+
+        /**
+         * 移除尾部节点
+         * @return 尾部的节点
+         */
+        public Node removeTail() {
+            Node tailNode = tail.pre;
+            removeNode(tailNode);
+            return tailNode;
+        }
     }
 }
