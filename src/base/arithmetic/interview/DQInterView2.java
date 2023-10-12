@@ -452,7 +452,7 @@ public class DQInterView2 {
      * @param <K>
      * @param <V>
      */
-   static class DQLruCache<K, V> extends LinkedHashMap<K, V> {
+    static class DQLruCache<K, V> extends LinkedHashMap<K, V> {
         int capacity;
 
         public DQLruCache(int capacity) {
@@ -557,12 +557,97 @@ public class DQInterView2 {
 
         /**
          * 移除尾部节点
+         *
          * @return 尾部的节点
          */
         public Node removeTail() {
             Node tailNode = tail.pre;
             removeNode(tailNode);
             return tailNode;
+        }
+    }
+
+    static class DQLruCacheV3 {
+
+        private int capacity;
+
+        private Node head;
+
+        private Node tail;
+
+        private Map<Integer, Node> caches;
+
+        public DQLruCacheV3(int capacity) {
+            this.capacity = capacity;
+            head = new Node(0, 0);
+            tail = new Node(0, 0);
+            caches = new ConcurrentHashMap<>();
+            head.next = tail;
+            tail.pre = head;
+        }
+
+        public void put(int key, int value) {
+            if (caches.containsKey(key)) {
+                // 存在的情况
+                Node node = caches.get(key);
+                moveToHead(node);
+            } else {
+                // 不存在的情况
+                Node node = new Node(key, value);
+                addToHead(node);
+                caches.put(key, node);
+                if (caches.size() > capacity) {
+                    // 移除尾部的节点
+                    Node removeNode = removeTail();
+                    caches.remove(removeNode.key);
+                }
+            }
+        }
+
+        public int get(int key) {
+            if (caches.containsKey(key)) {
+                Node node = caches.get(key);
+                moveToHead(node);
+                return node.value;
+            }
+            return -1;
+        }
+
+        private void moveToHead(Node node) {
+            removeNode(node);
+            addToHead(node);
+        }
+
+        /**
+         * 移除节点
+         *
+         * @param node 节点
+         */
+        private void removeNode(Node node) {
+            node.pre.next = node.next;
+            node.next.pre = node.pre;
+        }
+
+        /**
+         * 添加到头部
+         *
+         * @param node 节点
+         */
+        private void addToHead(Node node) {
+            Node tempNode = head.next;
+            node.next = tempNode;
+            node.pre = head;
+            head.next = node;
+            tempNode.pre = node;
+        }
+
+        /**
+         * 移除尾部的节点
+         */
+        private Node removeTail() {
+            Node node = tail.pre;
+            removeNode(node);
+            return node;
         }
     }
 }
