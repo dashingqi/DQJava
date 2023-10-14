@@ -650,4 +650,131 @@ public class DQInterView2 {
             return node;
         }
     }
+
+    static class MyBitmap {
+        private int size;
+
+        private long[] words;
+
+        public MyBitmap(int size) {
+            this.size = size;
+            this.words = new long[getWordIndex(size - 1) + 1];
+        }
+
+        private int getWordIndex(int bitIndex) {
+            return bitIndex >> 6;
+        }
+
+        public void setBit(int bitIndex) {
+            if (bitIndex < 0 || bitIndex > size - 1) {
+                throw new IndexOutOfBoundsException("");
+            }
+            int wordIndex = getWordIndex(bitIndex);
+            words[wordIndex] |= (1L << bitIndex);
+        }
+
+        public boolean getBit(int bitIndex) {
+            if (bitIndex < 0 || bitIndex > size - 1) {
+                throw new IndexOutOfBoundsException("");
+            }
+            int wordIndex = getWordIndex(bitIndex);
+            return (words[wordIndex] & (1L << bitIndex)) != 0;
+        }
+    }
+
+    /**
+     * LruCache算法
+     */
+    static class DQLruCacheV4 {
+
+        private final int capacity;
+        Node head;
+        Node tail;
+        Map<Integer, Node> cache;
+
+        public DQLruCacheV4(int capacity) {
+            this.capacity = capacity;
+            cache = new ConcurrentHashMap<>(capacity);
+            head = new Node(0, 0);
+            tail = new Node(0, 0);
+            head.next = tail;
+            tail.pre = head;
+        }
+
+        /**
+         * 存储值
+         *
+         * @param key   键
+         * @param value 值
+         */
+        public void put(int key, int value) {
+            if (cache.containsKey(key)) {
+                Node node = cache.get(key);
+                node.value = value;
+                moveToHead(node);
+                cache.put(key, node);
+            } else {
+                Node node = new Node(key, value);
+                addToHead(node);
+                if (cache.size() > capacity) {
+                    Node removeNode = removeTail();
+                    cache.remove(removeNode.key);
+                }
+            }
+        }
+
+        /**
+         * 获取节点值
+         *
+         * @param key 键
+         * @return value
+         */
+        public int get(int key) {
+            if (cache.containsKey(key)) {
+                Node node = cache.get(key);
+                moveToHead(node);
+                return node.value;
+            }
+            return -1;
+        }
+
+        private void moveToHead(Node node) {
+            removeNode(node);
+            addToHead(node);
+        }
+
+        /**
+         * 移除节点
+         *
+         * @param node 节点
+         */
+        private void removeNode(Node node) {
+            node.pre.next = node.next;
+            node.next.pre = node.pre;
+        }
+
+        /**
+         * 添加到头部
+         *
+         * @param node 节点
+         */
+        private void addToHead(Node node) {
+            Node tempNode = head.next;
+            node.next = tempNode;
+            node.pre = head;
+            tempNode.pre = node;
+            head.next = node;
+        }
+
+        /**
+         * 移除尾部的 Node
+         *
+         * @return node
+         */
+        private Node removeTail() {
+            Node node = tail.pre;
+            removeNode(node);
+            return node;
+        }
+    }
 }
