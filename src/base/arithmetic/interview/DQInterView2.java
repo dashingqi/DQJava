@@ -569,13 +569,13 @@ public class DQInterView2 {
 
     static class DQLruCacheV3 {
 
-        private int capacity;
+        private final int capacity;
 
-        private Node head;
+        private final Node head;
 
-        private Node tail;
+        private final Node tail;
 
-        private Map<Integer, Node> caches;
+        private final Map<Integer, Node> caches;
 
         public DQLruCacheV3(int capacity) {
             this.capacity = capacity;
@@ -688,9 +688,9 @@ public class DQInterView2 {
     static class DQLruCacheV4 {
 
         private final int capacity;
-        Node head;
-        Node tail;
-        Map<Integer, Node> cache;
+        private final Node head;
+        private final Node tail;
+        private final Map<Integer, Node> cache;
 
         public DQLruCacheV4(int capacity) {
             this.capacity = capacity;
