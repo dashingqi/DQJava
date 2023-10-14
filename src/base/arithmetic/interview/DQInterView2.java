@@ -1,6 +1,5 @@
 package base.arithmetic.interview;
 
-import base.arithmetic.listnode.Node;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -224,13 +223,13 @@ public class DQInterView2 {
      * 使用栈实现队列
      */
     static class StackQueue {
-        private Stack<Integer> stackA = new Stack<>();
-        private Stack<Integer> stackB = new Stack<>();
+        private final Stack<Integer> stackA = new Stack<>();
+        private final Stack<Integer> stackB = new Stack<>();
 
         /**
          * 入队
          *
-         * @param value
+         * @param value 值
          */
         public void enQueue(int value) {
             stackA.push(value);
