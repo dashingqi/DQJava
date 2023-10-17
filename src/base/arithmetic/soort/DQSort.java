@@ -3,6 +3,7 @@ package base.arithmetic.soort;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 排序
@@ -37,6 +38,37 @@ public class DQSort {
             }
             sortBorder = lastExchangeIndex;
             // 提前结束循环，避免重复循环
+            if (isSorted) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * 冒泡排序
+     *
+     * @param array 排序的数组
+     */
+    private void bubbleSortV2(int[] array) {
+        if (array == null || array.length == 0) {
+            return;
+        }
+        int lastExchangeIndex = 0;
+        int len = array.length;
+        int sortBorder = len;
+        for (int i = 0; i < len - 1; i++) {
+            boolean isSorted = true;
+            for (int j = 0; j < sortBorder; j++) {
+                if (array[j] > array[j + 1]) {
+                    int tempValue = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = tempValue;
+                    isSorted = false;
+                    lastExchangeIndex = j;
+                }
+            }
+            sortBorder = lastExchangeIndex;
+            // 提前结束排序
             if (isSorted) {
                 break;
             }
@@ -144,8 +176,8 @@ public class DQSort {
         // 统计数组
         int[] countArray = new int[d + 1];
         // 统计数组计数
-        for (int i = 0; i < array.length; i++) {
-            countArray[array[i] - min]++;
+        for (int j : array) {
+            countArray[j - min]++;
         }
 
         for (int i = 1; i < countArray.length; i++) {
@@ -157,7 +189,49 @@ public class DQSort {
         for (int i = array.length - 1; i > 0; i--) {
             sortedArray[countArray[array[i] - min] - 1] = array[i];
             countArray[array[i] - min]--;
+        }
+        return sortedArray;
+    }
 
+    /**
+     * 计数排序
+     *
+     * @param array 排序
+     * @return 排序后的数组
+     */
+    private static int[] countSortV3(int[] array) {
+        // 获取到数组中最大值
+        int max = array[0];
+        // 找到数组中最小值
+        int min = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
+
+            if (array[i] < min) {
+                min = array[i];
+            }
+        }
+
+        // 偏移量
+        int d = max - min;
+
+        // 构建存储数据
+        int[] countArray = new int[d + 1];
+
+        //遍历数组，统计数据
+        for (int k : array) {
+            countArray[k - min]++;
+        }
+
+        //遍历数组，输出结果
+        int index = 0;
+        int[] sortedArray = new int[array.length];
+        for (int i = 0; i < countArray.length; i++) {
+            for (int j = 0; j < countArray[i]; j++) {
+                sortedArray[index++] = i;
+            }
         }
         return sortedArray;
     }
@@ -212,5 +286,105 @@ public class DQSort {
             }
         }
         return sortedArray;
+    }
+
+    /**
+     * 桶排序
+     *
+     * @param array 数组
+     * @return 排序后的数组
+     */
+    public static double[] bucketSortV1(double[] array) {
+        double max = array[0];
+        double min = array[0];
+
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > max) {
+                max = array[i];
+            }
+
+            if (array[i] < min) {
+                min = array[i];
+            }
+        }
+        double d = max - min;
+        // 初始化桶
+        int bucketNum = array.length;
+        ArrayList<LinkedList<Double>> bucketList = new ArrayList<>(bucketNum);
+        for (int i = 0; i < bucketNum; i++) {
+            bucketList.add(new LinkedList<>());
+        }
+
+        // 计算值所在的桶
+        for (double v : array) {
+            int num = (int) ((v - min) * (bucketNum - 1) / d);
+            bucketList.get(num).add(v);
+        }
+        // 对桶内元素尽心排序
+        for (LinkedList<Double> list : bucketList) {
+            Collections.sort(list);
+        }
+
+        // 输出元素
+        double[] sortArray = new double[array.length];
+        int index = 0;
+        for (LinkedList<Double> bucket : bucketList) {
+            for (double value : bucket) {
+                sortArray[index++] = value;
+            }
+        }
+        return sortArray;
+    }
+
+    /**
+     * 桶排序
+     *
+     * @param array
+     * @return
+     */
+    private static double[] bucketSortV2(double[] array) {
+        double max = array[0];
+        double min = array[0];
+
+        for (int i = 1; i < array.length; i++) {
+            if (max < array[i]) {
+                max = array[i];
+            }
+
+            if (min > array[i]) {
+                min = array[i];
+            }
+        }
+
+        // 偏移量
+        double d = max - min;
+
+        // 初始化桶
+        int bucketArray = array.length;
+        ArrayList<LinkedList<Double>> bucketList = new ArrayList<>(bucketArray);
+        for (int i = 0; i < bucketArray; i++) {
+            bucketList.add(new LinkedList<>());
+        }
+
+        // 遍历将元素放置到对应的桶中
+        for (double v : array) {
+            int index = (int) ((v - min) * (bucketArray - 1) * d);
+            bucketList.get(index).add(v);
+        }
+
+        // 对桶内的元素进行排序
+        for (LinkedList<Double> bucket : bucketList) {
+            Collections.sort(bucket);
+        }
+
+        // 输出桶内的元素
+        double[] sortArray = new double[array.length];
+        int index = 0;
+        for (LinkedList<Double> bucket : bucketList) {
+            for (double value : bucket) {
+                sortArray[index++] = value;
+            }
+        }
+        return sortArray;
     }
 }
