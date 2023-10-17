@@ -237,6 +237,42 @@ public class DQSort {
     }
 
     /**
+     * 计数排序
+     *
+     * @param array 排序数组
+     */
+    private int[] countSortV4(int[] array) {
+        int max = array[0];
+        int min = array[1];
+        for (int i = 1; i < array.length; i++) {
+            if (max < array[i]) {
+                max = array[i];
+            }
+
+            if (min > array[i]) {
+                min = array[i];
+            }
+        }
+        // 偏移量
+        int d = max - min;
+
+        int[] countArray = new int[d + 1];
+        for (int j : array) {
+            countArray[j - min]++;
+        }
+
+        // 输出结果
+        int index = 0;
+        int[] sortArray = new int[array.length];
+        for (int i = 0; i < countArray.length; i++) {
+            for (int j = 0; j < countArray[i]; j++) {
+                sortArray[index++] = i;
+            }
+        }
+        return sortArray;
+    }
+
+    /**
      * 桶排序
      *
      * @param array 无序数组
