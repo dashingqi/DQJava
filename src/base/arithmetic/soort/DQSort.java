@@ -76,6 +76,32 @@ public class DQSort {
     }
 
     /**
+     * 冒泡排序V3
+     *
+     * @param array 数组
+     */
+    private void bubbleSortV3(int[] array) {
+        if (array == null || array.length == 0) {
+            return;
+        }
+        int len = array.length;
+        for (int i = 0; i < len - 1; i++) {
+            boolean isSorted = true;
+            for (int j = 0; j <= i; j++) {
+                if (array[j] > array[j + 1]) {
+                    int tempValue = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = tempValue;
+                    isSorted = false;
+                }
+            }
+            if (isSorted) {
+                break;
+            }
+        }
+    }
+
+    /**
      * 快速排序
      *
      * @param arr        数组
@@ -90,6 +116,71 @@ public class DQSort {
         int pivotIndex = partition(arr, startIndex, endIndex);
         quickSort(arr, startIndex, pivotIndex - 1);
         quickSort(arr, pivotIndex + 1, endIndex);
+    }
+
+    private static void quickSortV1(int[] arr, int startIndex, int endIndex) {
+        if (startIndex >= endIndex) {
+            return;
+        }
+        int partition = partitionV1(arr, startIndex, endIndex);
+        quickSort(arr, startIndex, partition - 1);
+        quickSort(arr, partition + 1, endIndex);
+
+    }
+
+    private static int partitionV1(int[] arr, int startIndex, int endIndex) {
+        // 临界值取默认第一位
+        int pivotValue = arr[startIndex];
+        int left = startIndex;
+        int right = endIndex;
+        while (left != right) {
+            while (left < right && arr[right] > pivotValue) {
+                right--;
+            }
+
+            while (left < right && arr[left] <= pivotValue) {
+                left++;
+            }
+            if (left < right) {
+                int tempValue = arr[left];
+                arr[left] = arr[right];
+                arr[right] = tempValue;
+            }
+        }
+        arr[startIndex] = arr[left];
+        arr[left] = pivotValue;
+        return left;
+    }
+
+    /**
+     * 快速排序V3 寻找分割值
+     * @param arr
+     * @param startIndex
+     * @param endIndex
+     * @return
+     */
+    private static int partitionV3(int[] arr, int startIndex, int endIndex) {
+        int pivotValue = arr[startIndex];
+        int left = startIndex;
+        int right = endIndex;
+        while (left != right) {
+            if (left < right && arr[right] > pivotValue) {
+                right--;
+            }
+
+            if (left < right && arr[left] <= pivotValue) {
+                left--;
+            }
+
+            if (left < right) {
+                int tempValue = arr[left];
+                arr[left] = arr[right];
+                arr[right] = tempValue;
+            }
+        }
+        arr[startIndex] = arr[left];
+        arr[left] = pivotValue;
+        return left;
     }
 
     /**
