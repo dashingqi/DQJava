@@ -3,7 +3,7 @@ package set
 /**
  * data class 数据类本身重写了equals和hashCode方法
  */
- class Student(val name: String, val age: Int, val classID: String) {
+ class Student() {
 //    override fun equals(other: Any?): Boolean {
 //        if (this === other) return true
 //        if (javaClass != other?.javaClass) return false

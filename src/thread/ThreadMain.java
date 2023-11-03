@@ -1,12 +1,15 @@
 package thread;
 
+import java.util.concurrent.CountDownLatch;
+
 public class ThreadMain {
     public static void main(String[] args) {
         // interruptAtThread();
 
         // unableInterruptThread();
 
-        flagThread();
+        //flagThread();
+        useCountDownLaunch();
     }
 
     /**
@@ -50,5 +53,30 @@ public class ThreadMain {
         }
 
         flagThread.isInterrupted = true;
+    }
+
+    public static void useCountDownLaunch() {
+        int numberOfThreads = 3;
+        CountDownLatch countDownLatch = new CountDownLatch(numberOfThreads);
+        for (int i = 0; i < numberOfThreads; i++) {
+            new Thread(() -> {
+                try {
+                    String threadName = Thread.currentThread().getName();
+                    System.out.println(threadName + " ---> Started");
+                    Thread.sleep(2000);
+                    System.out.println(threadName + " ---> finished its work");
+                    countDownLatch.countDown();
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }).start();
+        }
+
+        try {
+            countDownLatch.await();
+            System.out.println("All thread have completed their work. Continue with the main thread");
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }
