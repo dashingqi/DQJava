@@ -79,4 +79,11 @@ public class ThreadMain {
             exception.printStackTrace();
         }
     }
+
+
+    public static void useWaitAndNotify(){
+     // 开启两个线程
+    }
+
+
 }
