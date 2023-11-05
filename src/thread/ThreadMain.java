@@ -1,5 +1,9 @@
 package thread;
 
+import thread.waitnotify.Consumer;
+import thread.waitnotify.Producer;
+
+import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
 
 public class ThreadMain {
@@ -9,7 +13,9 @@ public class ThreadMain {
         // unableInterruptThread();
 
         //flagThread();
-        useCountDownLaunch();
+        //useCountDownLaunch();
+//        useWaitAndNotify();
+        useJoin();
     }
 
     /**
@@ -81,9 +87,41 @@ public class ThreadMain {
     }
 
 
-    public static void useWaitAndNotify(){
-     // 开启两个线程
+    public static void useWaitAndNotify() {
+        // 开启两个线程
+        int capacity = 5;
+        LinkedList<String> buffer = new LinkedList<>();
+        Object lock = new Object();
+        Thread producerThread = new Thread(new Producer(buffer, capacity, lock));
+        Thread consumerThread = new Thread(new Consumer(buffer, lock));
+
+        producerThread.start();
+        consumerThread.start();
     }
 
+    public static void useJoin() {
+        Thread thread1 = new Thread(() -> {
+            System.out.println("thread1 performed");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
+
+        });
+
+        Thread thread2 = new Thread(() -> {
+            System.out.println("thread2 performed");
+        });
+
+        thread1.start();
+        try {
+            thread1.join(); // 等待 thread1线程执行完毕
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        thread2.start();
+    }
 }
