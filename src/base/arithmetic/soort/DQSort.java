@@ -101,6 +101,24 @@ public class DQSort {
         }
     }
 
+    private void bubbleSortV4(int[] array) {
+        if (array == null || array.length == 0) {
+            return;
+        }
+        int len = array.length;
+        for (int i = 0; i < len - 1; i++) {
+            boolean isSorted = true;
+            for (int j = 0; j <= i; j++) {
+                if (array[j] > array[j + 1]) {
+                    isSorted = false;
+                }
+            }
+            if (isSorted) {
+                break;
+            }
+        }
+    }
+
     /**
      * 快速排序
      *
@@ -152,8 +170,31 @@ public class DQSort {
         return left;
     }
 
+    private static int partitionV5(int[] arr, int startIndex, int endIndex) {
+        int pivotValuer = arr[startIndex];
+        int left = startIndex;
+        int right = endIndex;
+        while (left != right) {
+            while (left < right && arr[right] > pivotValuer) {
+                right--;
+            }
+
+            while (left < right && arr[left] <= pivotValuer) {
+                left++;
+            }
+
+            if (left < right) {
+
+            }
+        }
+        arr[startIndex] = arr[left];
+        arr[left] = pivotValuer;
+        return left;
+    }
+
     /**
      * 快速排序V3 寻找分割值
+     *
      * @param arr
      * @param startIndex
      * @param endIndex
