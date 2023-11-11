@@ -1,5 +1,6 @@
 package thread;
 
+import thread.exception.ThreadMonitorDemo;
 import thread.waitnotify.Consumer;
 import thread.waitnotify.Producer;
 
@@ -7,7 +8,7 @@ import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
 
 public class ThreadMain {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         // interruptAtThread();
 
         // unableInterruptThread();
@@ -15,7 +16,8 @@ public class ThreadMain {
         //flagThread();
         //useCountDownLaunch();
 //        useWaitAndNotify();
-        useJoin();
+//        useJoinn();
+        useUnCaughtExceptionHandler();
     }
 
     /**
@@ -102,6 +104,7 @@ public class ThreadMain {
     public static void useJoin() {
         Thread thread1 = new Thread(() -> {
             System.out.println("thread1 performed");
+            System.out.println("ThreadGroup is " + Thread.currentThread().getThreadGroup());
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -112,7 +115,9 @@ public class ThreadMain {
         });
 
         Thread thread2 = new Thread(() -> {
+            System.out.println("ThreadGroup is " + Thread.currentThread().getThreadGroup());
             System.out.println("thread2 performed");
+
         });
 
         thread1.start();
@@ -123,5 +128,24 @@ public class ThreadMain {
         }
 
         thread2.start();
+    }
+
+    private static void useUnCaughtExceptionHandler() throws InterruptedException {
+        ThreadMonitorDemo threadMonitorDemo = new ThreadMonitorDemo();
+        threadMonitorDemo.initMethod();
+        for (int i = 0; i < 100; i++) {
+            threadMonitorDemo.service("test-" + i);
+        }
+        Thread.sleep(20000);
+        System.exit(0);
+    }
+
+    private Thread makeThread(Runnable runnable){
+        return new Thread(runnable){
+            @Override
+            public String toString() {
+                return super.toString();
+            }
+        };
     }
 }
