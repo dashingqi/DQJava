@@ -224,6 +224,66 @@ public class DQSort {
         return left;
     }
 
+    private static int partitionV8(int[] arr, int startIndex, int endIndex) {
+        int pivotValue = arr[startIndex];
+        int leftIndex = startIndex;
+        int rightIndex = endIndex;
+        while (leftIndex != rightIndex) {
+            while (leftIndex < rightIndex && arr[rightIndex] > pivotValue) {
+                rightIndex--;
+            }
+
+            while (leftIndex < rightIndex && arr[leftIndex] <= pivotValue) {
+                leftIndex++;
+            }
+
+            if (leftIndex < rightIndex) {
+                // 交换对应位置数据
+                int tempValue = arr[leftIndex];
+                arr[leftIndex] = arr[rightIndex];
+                arr[rightIndex] = tempValue;
+            }
+        }
+
+        arr[startIndex] = arr[leftIndex];
+        arr[leftIndex] = pivotValue;
+        return leftIndex;
+    }
+
+    public static void quickSortV9(int[] arr, int startIndex, int endIndex) {
+        if (startIndex > endIndex) {
+            return;
+        }
+
+        int pivotIndex = partitionV9(arr, startIndex, endIndex);
+        quickSortV9(arr, startIndex, pivotIndex - 1);
+        quickSortV9(arr, pivotIndex + 1, endIndex);
+    }
+
+    private static int partitionV9(int[] arr, int startIndex, int endIndex) {
+        int pivotValue = arr[startIndex];
+        int left = startIndex;
+        int right = endIndex;
+        while (left != right) {
+            while (left < right && arr[right] > pivotValue) {
+                right--;
+            }
+
+            while (left < right && arr[left] <= pivotValue) {
+                left++;
+            }
+
+            if (left < right) {
+                int tempValue = arr[left];
+                arr[left] = arr[right];
+                arr[right] = tempValue;
+            }
+        }
+        arr[startIndex] = arr[left];
+        arr[left] = pivotValue;
+        return left;
+    }
+
     /**
      * 寻找基准角标
      * 分治 单边循环法
