@@ -119,6 +119,53 @@ public class DQSort {
         }
     }
 
+    private void bubbleSortedV5(int[] array) {
+        if (array == null || array.length == 0) {
+            return;
+        }
+
+        for (int i = 0; i < array.length - 1; i++) {
+            boolean isSorted = true;
+            for (int j = 0; j <= i; j++) {
+                if (array[j] > array[j + 1]) {
+                    int tempValue = array[j + 1];
+                    array[j + 1] = array[j];
+                    array[j] = tempValue;
+                    isSorted = false;
+                }
+            }
+            if (isSorted) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * 冒泡排序
+     *
+     * @param array 待排序
+     */
+    private void bubbleSortV5(int[] array) {
+        if (array == null || array.length == 0) {
+            return;
+        }
+        for (int i = 0; i < array.length; i++) {
+            boolean isSorted = true;
+            for (int j = 0; j <= i; j++) {
+                if (array[j] > array[j + 1]) {
+                    int tempValue = array[j + 1];
+                    array[j + 1] = array[j];
+                    array[j] = tempValue;
+                    isSorted = false;
+                }
+            }
+            if (isSorted) {
+                break;
+            }
+        }
+
+    }
+
     /**
      * 快速排序
      *
