@@ -662,4 +662,55 @@ public class DQSort {
         }
         return sortArray;
     }
+
+    /**
+     * 桶排序
+     *
+     * @param array 待排序
+     * @return 排序后的
+     */
+    private static double[] bucketSortV3(double[] array) {
+        double max = array[0];
+        double min = array[1];
+        for (int i = 1; i < array.length; i++) {
+            if (max < array[i]) {
+                max = array[i];
+            }
+
+            if (min > array[i]) {
+                min = array[i];
+            }
+        }
+
+        double d = max - min;
+
+        int bucketLength = array.length;
+
+        ArrayList<LinkedList<Double>> buckets = new ArrayList<>(bucketLength);
+        for (int i = 0; i < bucketLength; i++) {
+            buckets.add(new LinkedList<>());
+        }
+
+        // 将元素防止到对应的桶中
+        for (double value : array) {
+            // 找到元素防止的桶位置
+            int index = (int) ((value - min) * (bucketLength - 1) * d);
+            buckets.get(index).add(value);
+        }
+
+        // 对桶内的元素进行排序
+        for (LinkedList<Double> bucket : buckets) {
+            Collections.sort(bucket);
+        }
+
+        double[] sortedArray = new double[bucketLength];
+        int index = 0;
+        for (LinkedList<Double> bucket : buckets) {
+            for (double value : bucket) {
+                sortedArray[index++] = value;
+            }
+        }
+
+        return sortedArray;
+    }
 }
