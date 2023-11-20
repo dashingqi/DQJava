@@ -2,6 +2,8 @@ package base.arithmetic.interview;
 
 import base.arithmetic.listnode.Node;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Stack;
 
 public class DQInterView {
@@ -246,5 +248,33 @@ public class DQInterView {
             sb.append(result[i]);
         }
         return sb.toString();
+    }
+
+    public static int methodV1(int[] array) {
+        int total = 0;
+        int sum = 0;
+        for (int value : array) {
+            total += value;
+        }
+        for (int i = 0; i < array.length; i++) {
+            if (2 * sum + array[i] == total) {
+                return i;
+            } else {
+                sum += array[i];
+            }
+        }
+        return -1;
+    }
+
+    public static void methodV2(String[] strArray) {
+        int left = 0;
+        int right = strArray.length - 1;
+        while (left < right) {
+            String tempLeftValue = strArray[left];
+            strArray[left] = strArray[right];
+            strArray[right] = tempLeftValue;
+            left++;
+            right--;
+        }
     }
 }

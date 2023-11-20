@@ -123,6 +123,29 @@ public class DQTree {
         }
     }
 
+    /**
+     * 二叉树的层序遍历 V1
+     *
+     * @param node 节点
+     */
+    public static void levelOrderTraverseV1(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            TreeNode tempNode = queue.poll();
+            if (tempNode.leftChild != null) {
+                queue.offer(node.leftChild);
+            }
+
+            if (tempNode.rightChild != null) {
+                queue.offer(tempNode.rightChild);
+            }
+        }
+    }
+
     static class TreeNode {
         int data;
         TreeNode leftChild;
