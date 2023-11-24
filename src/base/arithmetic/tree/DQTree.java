@@ -25,6 +25,15 @@ public class DQTree {
         preOrderTraverse(node.rightChild);
     }
 
+    public static void preOrderTraverseV1(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        System.out.println(node.data);
+        preOrderTraverseV1(node.leftChild);
+        preOrderTraverseV1(node.rightChild);
+    }
+
     /**
      * 二叉树中序遍历 （左节点、根节点、右节点）
      *
@@ -41,6 +50,15 @@ public class DQTree {
 
     }
 
+    public static void inOrderTraverseV1(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+        inOrderTraverseV1(node.leftChild);
+        System.out.println(node.data);
+        inOrderTraverseV1(node.rightChild);
+    }
+
     /**
      * 后序遍历 (左子树、右子树、根节点)
      *
@@ -52,6 +70,16 @@ public class DQTree {
         }
         postOrderTraverse(node.leftChild);
         postOrderTraverse(node.rightChild);
+        System.out.println(node.data);
+    }
+
+    public static void postOrderTraverseV1(TreeNode node) {
+        if (node == null) {
+            return;
+        }
+
+        postOrderTraverseV1(node.leftChild);
+        postOrderTraverseV1(node.rightChild);
         System.out.println(node.data);
     }
 
@@ -143,6 +171,15 @@ public class DQTree {
             if (tempNode.rightChild != null) {
                 queue.offer(tempNode.rightChild);
             }
+        }
+        TreeNode treeNode = queue.poll();
+        System.out.println("value = " + treeNode.data);
+        if (treeNode.leftChild != null) {
+            queue.offer(treeNode.leftChild);
+        }
+
+        if (treeNode.rightChild != null) {
+            queue.offer(treeNode.rightChild);
         }
     }
 

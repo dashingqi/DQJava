@@ -119,6 +119,53 @@ public class DQSort {
         }
     }
 
+    private void bubbleSortedV5(int[] array) {
+        if (array == null || array.length == 0) {
+            return;
+        }
+
+        for (int i = 0; i < array.length - 1; i++) {
+            boolean isSorted = true;
+            for (int j = 0; j <= i; j++) {
+                if (array[j] > array[j + 1]) {
+                    int tempValue = array[j + 1];
+                    array[j + 1] = array[j];
+                    array[j] = tempValue;
+                    isSorted = false;
+                }
+            }
+            if (isSorted) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * 冒泡排序
+     *
+     * @param array 待排序
+     */
+    private void bubbleSortV5(int[] array) {
+        if (array == null || array.length == 0) {
+            return;
+        }
+        for (int i = 0; i < array.length; i++) {
+            boolean isSorted = true;
+            for (int j = 0; j <= i; j++) {
+                if (array[j] > array[j + 1]) {
+                    int tempValue = array[j + 1];
+                    array[j + 1] = array[j];
+                    array[j] = tempValue;
+                    isSorted = false;
+                }
+            }
+            if (isSorted) {
+                break;
+            }
+        }
+
+    }
+
     /**
      * 快速排序
      *
@@ -211,6 +258,66 @@ public class DQSort {
 
             if (left < right && arr[left] <= pivotValue) {
                 left--;
+            }
+
+            if (left < right) {
+                int tempValue = arr[left];
+                arr[left] = arr[right];
+                arr[right] = tempValue;
+            }
+        }
+        arr[startIndex] = arr[left];
+        arr[left] = pivotValue;
+        return left;
+    }
+
+    private static int partitionV8(int[] arr, int startIndex, int endIndex) {
+        int pivotValue = arr[startIndex];
+        int leftIndex = startIndex;
+        int rightIndex = endIndex;
+        while (leftIndex != rightIndex) {
+            while (leftIndex < rightIndex && arr[rightIndex] > pivotValue) {
+                rightIndex--;
+            }
+
+            while (leftIndex < rightIndex && arr[leftIndex] <= pivotValue) {
+                leftIndex++;
+            }
+
+            if (leftIndex < rightIndex) {
+                // 交换对应位置数据
+                int tempValue = arr[leftIndex];
+                arr[leftIndex] = arr[rightIndex];
+                arr[rightIndex] = tempValue;
+            }
+        }
+
+        arr[startIndex] = arr[leftIndex];
+        arr[leftIndex] = pivotValue;
+        return leftIndex;
+    }
+
+    public static void quickSortV9(int[] arr, int startIndex, int endIndex) {
+        if (startIndex > endIndex) {
+            return;
+        }
+
+        int pivotIndex = partitionV9(arr, startIndex, endIndex);
+        quickSortV9(arr, startIndex, pivotIndex - 1);
+        quickSortV9(arr, pivotIndex + 1, endIndex);
+    }
+
+    private static int partitionV9(int[] arr, int startIndex, int endIndex) {
+        int pivotValue = arr[startIndex];
+        int left = startIndex;
+        int right = endIndex;
+        while (left != right) {
+            while (left < right && arr[right] > pivotValue) {
+                right--;
+            }
+
+            while (left < right && arr[left] <= pivotValue) {
+                left++;
             }
 
             if (left < right) {
@@ -554,5 +661,56 @@ public class DQSort {
             }
         }
         return sortArray;
+    }
+
+    /**
+     * 桶排序
+     *
+     * @param array 待排序
+     * @return 排序后的
+     */
+    private static double[] bucketSortV3(double[] array) {
+        double max = array[0];
+        double min = array[1];
+        for (int i = 1; i < array.length; i++) {
+            if (max < array[i]) {
+                max = array[i];
+            }
+
+            if (min > array[i]) {
+                min = array[i];
+            }
+        }
+
+        double d = max - min;
+
+        int bucketLength = array.length;
+
+        ArrayList<LinkedList<Double>> buckets = new ArrayList<>(bucketLength);
+        for (int i = 0; i < bucketLength; i++) {
+            buckets.add(new LinkedList<>());
+        }
+
+        // 将元素防止到对应的桶中
+        for (double value : array) {
+            // 找到元素防止的桶位置
+            int index = (int) ((value - min) * (bucketLength - 1) * d);
+            buckets.get(index).add(value);
+        }
+
+        // 对桶内的元素进行排序
+        for (LinkedList<Double> bucket : buckets) {
+            Collections.sort(bucket);
+        }
+
+        double[] sortedArray = new double[bucketLength];
+        int index = 0;
+        for (LinkedList<Double> bucket : buckets) {
+            for (double value : bucket) {
+                sortedArray[index++] = value;
+            }
+        }
+
+        return sortedArray;
     }
 }
