@@ -151,6 +151,25 @@ public class DQTree {
         }
     }
 
+    public static void levelOrderTraverseV2(TreeNode treeNode) {
+        if (treeNode == null) {
+            return;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(treeNode);
+        while (!queue.isEmpty()) {
+            TreeNode tempNode = queue.poll();
+            System.out.println(treeNode.data);
+            if (tempNode.leftChild != null) {
+                queue.offer(tempNode.leftChild);
+            }
+
+            if (tempNode.rightChild != null) {
+                queue.offer(tempNode.rightChild);
+            }
+        }
+    }
+
     /**
      * 二叉树的层序遍历 V1
      *
@@ -172,14 +191,24 @@ public class DQTree {
                 queue.offer(tempNode.rightChild);
             }
         }
-        TreeNode treeNode = queue.poll();
-        System.out.println("value = " + treeNode.data);
-        if (treeNode.leftChild != null) {
-            queue.offer(treeNode.leftChild);
+    }
+
+    public static void deepOrderTraverseV1(TreeNode node) {
+        if (node == null) {
+            return;
         }
 
-        if (treeNode.rightChild != null) {
-            queue.offer(treeNode.rightChild);
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(node);
+        while (!stack.isEmpty()) {
+            TreeNode treeNode = stack.pop();
+            if (treeNode.rightChild != null) {
+                stack.push(treeNode.rightChild);
+            }
+            if (treeNode.leftChild != null) {
+                stack.push(treeNode.leftChild);
+            }
+            System.out.println(treeNode.data);
         }
     }
 

@@ -98,6 +98,45 @@ public class DQInterView24 {
         return maxLen;
     }
 
+    public int lengthOfLongestSubstringV1(String s) {
+        if (s.isEmpty()) {
+            return 0;
+        }
+        int maxLen = 0;
+        HashMap<Character, Integer> maps = new HashMap<>();
+        for (int start = 0, end = 0; end < s.length(); end++) {
+            char value = s.charAt(end);
+            if (maps.containsKey(value)) {
+                Integer index = maps.get(value);
+                start = Math.max(start, index);
+
+            }
+            maxLen = Math.max(maxLen, end - start + 1);
+            maps.put(value, end + 1);
+        }
+        return maxLen;
+    }
+
+    public int lengthOfLongestSubstringV2(String s) {
+        if (s == null || s.isEmpty()) {
+            return 0;
+        }
+        int maxLen = 0;
+        HashMap<Character, Integer> maps = new HashMap<>();
+        for (int start = 0, end = 0; end < s.length(); end++) {
+            char charValue = s.charAt(end);
+            if (maps.containsKey(charValue)) {
+                Integer index = maps.get(charValue);
+                start = Math.max(start, index);
+
+            }
+            maxLen = Math.max(maxLen, end - start + 1);
+            maps.put(charValue, end + 1);
+        }
+        return maxLen;
+    }
+
+
     /**
      * 链表反转
      * 给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
@@ -218,6 +257,32 @@ public class DQInterView24 {
     }
 
     /**
+     * 合并两个链表
+     *
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public Node mergeTwoListsV3(Node list1, Node list2) {
+        if (list1 == null) {
+            return list2;
+        }
+
+        if (list2 == null) {
+            return list1;
+        }
+
+        if (list1.data < list2.data) {
+            list1.next = mergeTwoListsV3(list1.next, list2);
+            return list1;
+        } else {
+            list2.next = mergeTwoListsV3(list1, list2.next);
+            return list2;
+        }
+
+    }
+
+    /**
      * 给你两个按 非递减顺序 排列的整数数组 nums1 和 nums2，另有两个整数 m 和 n ，分别表示 nums1 和 nums2 中的元素数目。
      * <p>
      * 请你 合并 nums2 到 nums1 中，使合并后的数组同样按 非递减顺序 排列。
@@ -235,26 +300,40 @@ public class DQInterView24 {
      * 合并结果是 [1,2,2,3,5,6] ，其中斜体加粗标注的为 nums1 中的元素。
      */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-        int[] resultArray = new int[m + n];
         int i = m - 1;
         int j = n - 1;
         int k = m + n - 1;
         while (i >= 0 && j >= 0) {
             if (nums1[i] > nums2[j]) {
-                resultArray[k--] = nums1[i--];
+                nums1[k--] = nums1[i--];
             } else {
-                resultArray[k--] = nums2[j--];
+                nums1[k--] = nums2[j--];
             }
         }
 
-        while (i >= 0) {
-            resultArray[k--] = nums1[i--];
+        while (j >= 0) {
+            nums1[k--] = nums1[j--];
+        }
+        System.out.println(nums1);
+    }
+
+    public int[] mergeV1(int[] nums1, int m, int[] nums2, int n) {
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+        while (i >= 0 && j >= 0) {
+            if (nums1[i] > nums2[j]) {
+                nums1[k--] = nums1[i--];
+            } else {
+                nums1[k--] = nums2[j--];
+            }
         }
 
         while (j >= 0) {
-            resultArray[k--] = nums1[j--];
+            nums1[k--] = nums2[j--];
         }
-        System.out.println(resultArray);
+        return nums1;
+
     }
 
     /**
@@ -350,6 +429,28 @@ public class DQInterView24 {
             }
         }
         return index;
+    }
+
+    /**
+     * 移除数组中的重复项
+     *
+     * @param nums
+     * @return
+     */
+    public int removeDuplicatesV3(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int fast = 1, slow = 1;
+        int len = nums.length;
+        while (fast < len) {
+            if (nums[fast] != nums[fast - 1]) {
+                nums[slow] = nums[fast];
+                ++slow;
+            }
+            ++fast;
+        }
+        return slow;
     }
 
     /**
