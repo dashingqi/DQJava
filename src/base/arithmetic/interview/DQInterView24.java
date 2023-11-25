@@ -3,6 +3,7 @@ package base.arithmetic.interview;
 import base.arithmetic.listnode.Node;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * 2023-11-24
@@ -166,6 +167,56 @@ public class DQInterView24 {
         return dumpNode.next;
     }
 
+
+    /**
+     * 将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+     * 输入：l1 = [1,2,4], l2 = [1,3,4]
+     * 输出：[1,1,2,3,4,4]
+     * 示例 2：
+     * <p>
+     * 输入：l1 = [], l2 = []
+     * 输出：[]
+     */
+    public Node mergeTwoListsV1(Node list1, Node list2) {
+        if (list1 == null) {
+            return list2;
+        }
+        if (list2 == null) {
+            return list1;
+        }
+
+        Node node = new Node(0);
+        Node newNode = node;
+        while (list1.next != null || list2.next != null) {
+            if (list1.data < list2.data) {
+                newNode.next = list1;
+            } else {
+                newNode.next = list2;
+            }
+            newNode = newNode.next;
+            list1 = list1.next;
+            list2 = list2.next;
+        }
+        return newNode;
+    }
+
+    public Node mergeTwoListsV2(Node list1, Node list2) {
+        if (list1 == null) {
+            return list2;
+        }
+        if (list2 == null) {
+            return list1;
+        }
+
+        if (list1.data < list2.data) {
+            list1.next = mergeTwoListsV2(list1.next, list2);
+            return list1;
+        } else {
+            list2.next = mergeTwoListsV2(list1, list2.next);
+            return list2;
+        }
+    }
+
     /**
      * 给你两个按 非递减顺序 排列的整数数组 nums1 和 nums2，另有两个整数 m 和 n ，分别表示 nums1 和 nums2 中的元素数目。
      * <p>
@@ -250,5 +301,54 @@ public class DQInterView24 {
         }
 
         return true;
+    }
+
+    /**
+     * 输入：nums = [1,1,2]
+     * 输出：2, nums = [1,2,_]
+     * 解释：函数应该返回新的长度 2 ，并且原数组 nums 的前两个元素被修改为 1, 2 。不需要考虑数组中超出新长度后面的元素。
+     * 示例 2：
+     * <p>
+     * 输入：nums = [0,0,1,1,1,2,2,3,3,4]
+     * 输出：5, nums = [0,1,2,3,4]
+     * 解释：函数应该返回新的长度 5 ， 并且原数组 nums 的前五个元素被修改为 0, 1, 2, 3, 4 。不需要考虑数组中超出新长度后面的元素。
+     */
+    public int removeDuplicates(int[] nums) {
+        HashSet<Integer> integers = new HashSet<>();
+        for (int i : nums) {
+            integers.add(i);
+        }
+        return integers.size();
+    }
+
+    public int removeDuplicatesV1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int len = nums.length;
+        int fast = 1, slow = 1;
+        while (fast < len) {
+            if (nums[fast] != nums[fast - 1]) {
+                nums[slow] = nums[fast];
+                ++slow;
+            }
+            ++fast;
+        }
+
+        return slow;
+    }
+
+    public int removeDuplicatesV2(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int len = nums.length;
+        int index = 1;
+        for (int i = 1; i < len; i++) {
+            if (nums[i] != nums[i - 1]) {
+                nums[index++] = nums[i];
+            }
+        }
+        return index;
     }
 }
