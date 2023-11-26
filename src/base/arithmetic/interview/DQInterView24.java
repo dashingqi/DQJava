@@ -2,8 +2,7 @@ package base.arithmetic.interview;
 
 import base.arithmetic.listnode.Node;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 /**
  * 2023-11-24
@@ -469,5 +468,138 @@ public class DQInterView24 {
         }
         return fib(n - 1) + fib(n - 2);
 
+    }
+
+    /**
+     * 使用两个栈实现队列
+     */
+    static class DQQueue {
+
+        /**
+         * 栈 A
+         */
+        Stack<Integer> stackA = new Stack<Integer>();
+        /**
+         * 栈 B
+         */
+        Stack<Integer> stackB = new Stack<Integer>();
+
+        public DQQueue() {
+
+        }
+
+        public void appendTail(int value) {
+            stackA.push(value);
+        }
+
+        public int deleteHead() {
+            if (stackB.isEmpty()) {
+                if (stackA != null && !stackA.isEmpty()) {
+                    a2B();
+                } else {
+                    return -1;
+                }
+            }
+            return stackB.pop();
+        }
+
+        private void a2B() {
+            while (!stackA.isEmpty()) {
+                stackB.push(stackA.pop());
+            }
+        }
+    }
+
+    /**
+     * 请你仅使用两个队列实现一个后入先出（LIFO）的栈，
+     * 并支持普通栈的全部四种操作（push、top、pop 和 empty）。
+     */
+    static class DQStack {
+        Queue<Integer> queue1;
+        Queue<Integer> queue2;
+
+        public DQStack() {
+            queue1 = new LinkedList<>();
+            queue2 = new LinkedList<>();
+        }
+
+        public void push(int x) {
+            queue2.offer(x);
+            while (!queue1.isEmpty()) {
+                queue2.offer(queue1.poll());
+            }
+
+            Queue<Integer> tempQueue = queue1;
+            queue1 = queue2;
+            queue2 = tempQueue;
+        }
+
+        public int pop() {
+            return queue1.poll();
+        }
+
+        public int top() {
+            return queue1.peek();
+        }
+
+        public boolean empty() {
+            return queue1.isEmpty();
+        }
+    }
+
+    static class DQStackV1 {
+        Queue<Integer> mQueue;
+
+        public DQStackV1() {
+            mQueue = new LinkedList<>();
+        }
+
+        public void push(int x) {
+            int n = mQueue.size();
+            mQueue.offer(x);
+            for (int i = 0; i < n; i++) {
+                mQueue.offer(mQueue.poll());
+            }
+        }
+
+        public int pop() {
+            return mQueue.poll();
+        }
+
+        public int top() {
+            return mQueue.peek();
+        }
+
+        public boolean empty() {
+            return mQueue.isEmpty();
+        }
+    }
+
+    public boolean isValidBracket(String s) {
+        if (s == null && s.isEmpty()) {
+            return false;
+        }
+
+        HashMap<Character, Character> maps = new HashMap<>();
+        maps.put('(', ')');
+        maps.put('[', ']');
+        maps.put('{', '}');
+        maps.put('?', '?');
+        int len = s.length();
+        LinkedList<Character> queue = new LinkedList<>();
+        queue.offer('?');
+        for (int i = 0; i < len; i++) {
+            char charValue = s.charAt(i);
+            if (maps.containsKey(charValue)) {
+                Character tempValue = maps.get(charValue);
+                queue.addLast(tempValue);
+            } else {
+                Character poll = queue.removeLast();
+                if (poll != charValue) {
+                    return false;
+                }
+            }
+        }
+        return queue.size() == 1;
     }
 }
