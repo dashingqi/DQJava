@@ -843,4 +843,52 @@ public class DQInterView2 {
             removeNode(node);
         }
     }
+
+    static class DQQueueV1 {
+        int[] arr;
+        int capacity;
+        int head = 0;
+        int tail = 0;
+
+        public DQQueueV1(int capacity) {
+            this.capacity = capacity;
+            arr = new int[capacity];
+        }
+
+        /**
+         * 入队
+         *
+         * @param value
+         */
+        public void enqueue(int value) {
+            // 当前队列有没有满呢
+            if (tail == capacity) {
+                return;
+            }
+            arr[tail] = value;
+            tail++;
+        }
+
+        /**
+         * 出队
+         *
+         * @return
+         */
+        public int dequeue() {
+            // 判断当前队列空不空
+            if (head == tail) return -1;
+            int tempValue = arr[head];
+            head++;
+            return tempValue;
+        }
+
+        /**
+         * 大小
+         *
+         * @return
+         */
+        public int size() {
+            return tail - head;
+        }
+    }
 }
