@@ -602,4 +602,76 @@ public class DQInterView24 {
         }
         return queue.size() == 1;
     }
+
+    public int pivotIndex(int[] array) {
+        int total = 0;
+        int sum = 0;
+        for (int intValue : array) {
+            total += intValue;
+        }
+        for (int i = 0; i < array.length; i++) {
+            total -= array[i];
+            if (sum == total) {
+                return i;
+            }
+            sum += array[i];
+        }
+
+        return -1;
+    }
+
+    /**
+     * 示例 1：
+     * <p>
+     * 输入：x = 123
+     * 输出：321
+     * 示例 2：
+     * <p>
+     * 输入：x = -123
+     * 输出：-321
+     * 示例 3：
+     * <p>
+     * 输入：x = 120
+     * 输出：21
+     */
+    public int reverse(int x) {
+        int sum = 0;
+        while (x != 0) {
+            int value = x % 10;
+            sum = sum * 10 + value;
+            x /= 10;
+        }
+        return sum;
+    }
+
+
+    /**
+     * 接雨水
+     * 输入：height = [0,1,0,2,1,0,1,3,2,1,2,1]
+     * 输出：6
+     * 解释：上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。
+     */
+    public int trap(int[] height) {
+        Stack<Integer> stacks = new Stack<>();
+        int current = 0;
+        int sum = 0;
+        while (current < height.length) {
+            while (!stacks.isEmpty() && height[current] > height[stacks.peek()]) {
+                int h = height[stacks.peek()];
+                stacks.pop();
+                if (stacks.isEmpty()) {
+                    break;
+                }
+                int distance = current - stacks.peek() - 1;
+                int min = Math.min(height[stacks.peek()], height[current]);
+                sum = sum + distance * (min - h);
+            }
+            stacks.push(current);
+            current++;
+
+        }
+
+        return sum;
+
+    }
 }
