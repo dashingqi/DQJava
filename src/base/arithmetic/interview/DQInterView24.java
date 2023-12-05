@@ -674,4 +674,49 @@ public class DQInterView24 {
         return sum;
 
     }
+
+    /**
+     * 最长子串
+     *
+     * @param s
+     * @return
+     */
+    public int lengthOfLongestSubstringV3(String s) {
+        if (s == null || s.isEmpty()) {
+            return 0;
+        }
+        int len = s.length();
+        int maxLen = 0;
+        HashMap<Character, Integer> maps = new HashMap<>();
+        for (int start = 0, end = 0; end < len; end++) {
+            char tempCharValue = s.charAt(end);
+            if (maps.containsKey(tempCharValue)) {
+                Integer index = maps.get(tempCharValue);
+                start = Math.max(index, start);
+            }
+            maxLen = Math.max(maxLen, end - start + 1);
+            maps.put(tempCharValue, end + 1);
+        }
+        return maxLen;
+    }
+
+    /**
+     * 去除数组中重复的数据
+     * @param nums
+     * @return
+     */
+    public int[] removeDuplicatesV4(int[] nums) {
+        if (nums == null && nums.length == 0) {
+            return new int[0];
+        }
+        int start = 0;
+        for (int end = 0; end < nums.length; end++) {
+            if (nums[start] != nums[end]) {
+                start++;
+                nums[start] = nums[end];
+            }
+        }
+
+        return Arrays.copyOfRange(nums, 0, start + 1);
+    }
 }
