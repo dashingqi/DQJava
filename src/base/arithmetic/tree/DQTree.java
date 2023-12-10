@@ -212,16 +212,6 @@ public class DQTree {
         }
     }
 
-    static class TreeNode {
-        int data;
-        TreeNode leftChild;
-        TreeNode rightChild;
-
-        TreeNode(int data) {
-            this.data = data;
-        }
-    }
-
     /**
      * "上浮"调整 最小堆的实现
      *
